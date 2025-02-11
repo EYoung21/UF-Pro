@@ -1,0 +1,443 @@
+using UnityEngine;
+using System;
+using System.Collections;
+using Random = UnityEngine.Random;  // This is the correct way to reference Random
+
+public class UFOMovement : MonoBehaviour
+{
+    // private bool isMoving = false;
+    public float speed = 10;
+    private Rigidbody2D rb2d;
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+
+    private float inputX = 0;
+    private float inputY = 0;
+
+    // public float xOffset;
+
+    private float yOffset;
+
+    private SpriteRenderer playerSpriteRenderer;
+    // public CollideCheck collideCheck;
+
+    public LayerMask hitLayers;
+
+    // public float playerNum = 3;
+
+    // public Sprite spriteRight;
+
+    // public float xOffset;
+
+    // public Sprite spriteDown;
+
+    // public Sprite[] framesRight;
+    // public Sprite[] framesUp; //jumping animation
+    // public Sprite[] framesDown;
+
+    // public Sprite[] framesIdle; //defaulted right
+
+    // public Sprite[] framesAttack2;
+
+    // public Sprite[] deathAnimations;
+
+    // public Sprite[] framesrayAttack;
+
+    // float frameTimerLeft, frameTimerRight, frameTimerUp, frameTimerDown, frameTimerIdle, frameTimerAttack2, frameTimerrayAttack, frameTimerDeath;
+
+    // int frameIndexLeft, frameIndexRight, frameIndexUp, frameIndexDown, frameIndexIdle, frameIndexAttack2, frameIndexrayAttack, frameIndexDeath;
+
+    // float frameTimerLeft, frameTimerRight;
+    float framesPerSecond = 10;
+
+    // private string lastDirection = "right"; //defaulted right, would later be determined by player
+
+    // float allowJumpFor;
+
+
+    void Start()
+    {
+        rb2d = GetComponent<Rigidbody2D>();
+        playerSpriteRenderer = GetComponent<SpriteRenderer>();
+        // collideCheck = GetComponent<CollideCheck>();
+
+        // frameTimerUp = frameTimerDown = frameTimerLeft = frameTimerRight = frameTimerIdle = frameTimerAttack2 = frameTimerDeath = frameTimerrayAttack = (1f / framesPerSecond);
+        // frameIndexLeft = frameIndexRight = frameIndexUp = frameIndexDown = frameIndexIdle = frameIndexAttack2 = frameIndexDeath = frameIndexrayAttack = 0;
+
+        yOffset = -1;
+
+        // xOffset = 0;
+        // allowJumpFor = 0.2f;
+        // if (playerNum == 1)
+        // {
+        //     lastDirection = "right";
+        // }
+        // else if (playerNum == 2)
+        // {
+        //     lastDirection = "left";
+        //     playerSpriteRenderer.flipX = true;
+        // }
+        // else if (playerNum == 3)
+        // {
+        //     float dir = Random.Range(0, 2);
+        //     if (dir == 0) {
+        //         lastDirection = "right";
+        //     }
+        //     else if (dir == 1) {
+        //         lastDirection = "left";
+        //         playerSpriteRenderer.flipX = true;
+        //     }
+        // }
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+        // KeyCode up = KeyCode.UpArrow;
+        // KeyCode right = KeyCode.RightArrow;
+        // KeyCode left = KeyCode.LeftArrow;
+        // KeyCode down = KeyCode.DownArrow;
+        // KeyCode rayAttack = KeyCode.Space;
+        // KeyCode attack2 = KeyCode.RightShift;
+
+        // if (playerNum == 2)
+        // {
+        //     up = KeyCode.W;
+        //     right = KeyCode.D;
+        //     left = KeyCode.A;
+        //     down = KeyCode.S;
+        //     attack2 = KeyCode.E;
+        //     rayAttack = KeyCode.Q;
+        // }
+
+        // if (playerNum == 3) {
+        //     up = KeyCode.Y;
+        //     right = KeyCode.J;
+        //     left = KeyCode.G;
+        //     down = KeyCode.H;
+        //     attack2 = KeyCode.T;
+        //     rayAttack = KeyCode.U;
+        // }
+
+        KeyCode up = KeyCode.W;
+        KeyCode right = KeyCode.D;
+        KeyCode left = KeyCode.A;
+        KeyCode down = KeyCode.S;
+        // KeyCode attack2 = KeyCode.E;
+        KeyCode rayAttack = KeyCode.Space;
+
+        // bool isMoving = false;
+
+        inputY = 0;
+        inputX = 0;
+        // playerSpriteRenderer.flipX = false;
+
+        // if (collideCheck.IsCollided) {
+        //     Debug.Log("collided");
+        //     allowJumpFor = 0.2f;
+        //     Debug.Log("allowJumpFor: " + allowJumpFor);
+        // }
+
+        //prioritize up/down over left/right
+        // && allowJumpFor > 0
+        if (Input.GetKey(up))
+        {
+            // allowJumpFor -= Time.deltaTime;
+            // isMoving = true;
+            // frameTimerUp -= Time.deltaTime;
+            // if (frameTimerUp <= 0)
+            // {
+            //     frameIndexUp++;
+            //     if (frameIndexUp >= framesUp.Length)
+            //     {
+            //         frameIndexUp = 0;
+            //     }
+            //     frameTimerUp = (1f / framesPerSecond);
+            //     playerSpriteRenderer.sprite = framesUp[frameIndexUp];
+            // }
+            inputY = 1;
+
+            if (Input.GetKey(right))
+            {
+                inputX = 1;
+                // lastDirection = "right";
+            }
+            else if (Input.GetKey(left))
+            {
+                inputX = -1;
+                // lastDirection = "left";
+                // playerSpriteRenderer.flipX = true;
+            }
+        }
+
+        else if (Input.GetKey(down))
+        {
+            // isMoving = true;
+            // if (collideCheck.IsCollided)
+            // {
+            //     playerSpriteRenderer.sprite = spriteDown;
+            // }
+            // else
+            // {
+            //     frameTimerDown -= Time.deltaTime;
+            //     if (frameTimerDown <= 0)
+            //     {
+            //         frameIndexDown++;
+            //         if (frameIndexDown >= framesDown.Length)
+            //         {
+            //             frameIndexDown = 0;
+            //         }
+            //         frameTimerDown = (1f / framesPerSecond);
+            //         playerSpriteRenderer.sprite = framesDown[frameIndexDown];
+            //     }
+            // }
+            inputY = -1;
+
+            if (Input.GetKey(right))
+            {
+                inputX = 1;
+                // lastDirection = "right";
+            }
+            else if (Input.GetKey(left))
+            {
+                inputX = -1;
+                // lastDirection = "left";
+                // playerSpriteRenderer.flipX = true;
+            }
+        }
+
+        else if (Input.GetKey(left))
+        {
+            // isMoving = true;
+            // frameTimerLeft -= Time.deltaTime;
+            // if (frameTimerLeft <= 0)
+            // {
+            //     frameIndexLeft++;
+            //     if (frameIndexLeft >= framesRight.Length)
+            //     {
+            //         frameIndexLeft = 0;
+            //     }
+            //     frameTimerLeft = (1f / framesPerSecond);
+            //     playerSpriteRenderer.sprite = framesRight[frameIndexLeft];
+            // }
+            // playerSpriteRenderer.flipX = true;
+            // lastDirection = "left";
+            inputX = -1;
+
+            if (Input.GetKey(up)) {
+                inputY = 1;
+            } else if (Input.GetKey(down)) {
+                inputY = -1;
+            }
+        }
+
+        else if (Input.GetKey(right))
+        {
+            // isMoving = true;
+            // frameTimerRight -= Time.deltaTime;
+            // if (frameTimerRight <= 0)
+            // {
+            //     frameIndexRight++;
+            //     if (frameIndexRight >= framesRight.Length)
+            //     {
+            //         frameIndexRight = 0;
+            //     }
+            //     frameTimerRight = (1f / framesPerSecond);
+            //     playerSpriteRenderer.sprite = framesRight[frameIndexRight];
+            // }
+            inputX = 1;
+            // lastDirection = "right";
+            if (Input.GetKey(up)) {
+                inputY = 1;
+            } else if (Input.GetKey(down)) {
+                inputY = -1;
+            }
+        }
+
+        else if (Input.GetKey(rayAttack))
+        {
+            // isMoving = true;
+            // frameTimerrayAttack -= Time.deltaTime;
+            // if (frameTimerrayAttack <= 0)
+            // {
+            //     frameIndexrayAttack++;
+            //     if (frameIndexrayAttack >= framesrayAttack.Length)
+            //     {
+            //         frameIndexrayAttack = 0;
+            //     }
+            //     frameTimerrayAttack = (1f / framesPerSecond);
+            //     playerSpriteRenderer.sprite = framesrayAttack[frameIndexrayAttack];
+            // }
+            // xOffset = 1;
+            // if (lastDirection == "left")
+            // {
+            //     playerSpriteRenderer.flipX = true;
+            //     xOffset = -1;
+            // }
+
+            Vector2 origin = new Vector2(transform.position.x, transform.position.y);
+            Vector2 target = new Vector2(transform.position.x, transform.position.y + yOffset);
+            Vector2 cool = target - origin;
+            Wait();
+            RaycastHit2D attackHit = Physics2D.Raycast(origin, cool, 2f, hitLayers);
+            if (attackHit.collider != null)
+            {
+                // Character ch = attackHit.collider.GetComponent<Character>();
+                // Debug.Log("Hit!!!");
+                // if (ch != null)
+                // {
+                //     ch.health -= 40;
+                // }
+
+                //abduct character under ray
+            }
+        }
+
+        // else if (Input.GetKey(attack2))
+        // {
+        //     isMoving = true;
+        //     frameTimerAttack2 -= Time.deltaTime;
+        //     if (frameTimerAttack2 <= 0)
+        //     {
+        //         frameIndexAttack2++;
+        //         if (frameIndexAttack2 >= framesAttack2.Length)
+        //         {
+        //             frameIndexAttack2 = 0;
+        //         }
+        //         frameTimerAttack2 = (1f / framesPerSecond);
+        //         playerSpriteRenderer.sprite = framesAttack2[frameIndexAttack2];
+        //     }
+            
+        //     xOffset = 2;
+        //     if (lastDirection == "left")
+        //     {
+        //         playerSpriteRenderer.flipX = true;
+        //         xOffset = -2;
+        //     }
+
+        //     if (lastDirection == "left")
+        //     {
+        //         playerSpriteRenderer.flipX = true;
+        //     }
+
+        //     Vector2 origin = new Vector2(transform.position.x, transform.position.y);
+        //     Vector2 target = new Vector2(transform.position.x + xOffset, transform.position.y);
+        //     Vector2 cool = target - origin;
+        //     Wait();
+        //     RaycastHit2D attackHit = Physics2D.Raycast(origin, cool, 2f, hitLayers);
+        //     if (attackHit.collider != null)
+        //     {
+        //         Character ch = attackHit.collider.GetComponent<Character>();
+        //         Debug.Log("Hit!!!");
+        //         if (ch != null)
+        //         {
+        //             ch.health -= 40;
+        //         }
+        //     }
+        // }
+
+        //idle animation
+        // if (!isMoving)
+        // {
+        //     if (rb2d.linearVelocity.y < 0)
+        //     {
+        //         frameTimerDown -= Time.deltaTime;
+        //         if (frameTimerDown <= 0)
+        //         {
+        //             frameIndexDown++;
+        //             if (frameIndexDown >= framesDown.Length)
+        //             {
+        //                 frameIndexDown = 0;
+        //             }
+        //             frameTimerDown = (1f / framesPerSecond);
+        //             playerSpriteRenderer.sprite = framesDown[frameIndexDown];
+        //         }
+        //         if (lastDirection == "left")
+        //         {
+        //             playerSpriteRenderer.flipX = true;
+        //         }
+        //     }
+        //     else if (rb2d.linearVelocity.y > 0)
+        //     {
+        //         frameTimerUp -= Time.deltaTime;
+        //         if (frameTimerUp <= 0)
+        //         {
+        //             frameIndexUp++;
+        //             if (frameIndexUp >= framesUp.Length)
+        //             {
+        //                 frameIndexUp = 0;
+        //             }
+        //             frameTimerUp = (1f / framesPerSecond);
+        //             playerSpriteRenderer.sprite = framesUp[frameIndexUp];
+        //         }
+        //         if (lastDirection == "left")
+        //         {
+        //             playerSpriteRenderer.flipX = true;
+        //         }
+        //     }
+        //     else if (rb2d.linearVelocity.y == 0)
+        //     {
+        //         frameTimerIdle -= Time.deltaTime;
+        //         if (frameTimerIdle <= 0)
+        //         {
+        //             frameIndexIdle++;
+        //             if (frameIndexIdle >= framesIdle.Length)
+        //             {
+        //                 frameIndexIdle = 0;
+        //             }
+        //             frameTimerUp = (1f / framesPerSecond);
+        //             playerSpriteRenderer.sprite = framesIdle[frameIndexIdle];
+        //         }
+        //         if (lastDirection == "left")
+        //         {
+        //             playerSpriteRenderer.flipX = true;
+        //         }
+        //     }
+        // }
+        rb2d.linearVelocity = new Vector2(inputX, inputY) * speed;
+    }
+
+
+    // public IEnumerator deathAnimation()
+    // {
+    //     frameTimerDeath -= Time.deltaTime;
+    //     if (frameTimerDeath <= 0)
+    //     {
+    //         frameIndexDeath++;
+    //         if (frameIndexDeath >= deathAnimations.Length)
+    //         {
+    //             frameIndexDeath = 0;
+    //         }
+    //         frameTimerDeath = (1f / framesPerSecond);
+    //         playerSpriteRenderer.sprite = deathAnimations[frameIndexDeath];
+    //     }
+    //     yield return new WaitForSeconds(1f);
+    // }
+
+    IEnumerator Wait()
+    {
+        yield return new WaitForSeconds(1f);
+    }
+    // private void animationLoop(Sprite[] animationArray)
+    // {
+    //     //animationTimer -= Time.deltaTime;
+    //     //if (animationTimer < 0)
+    //     //{
+    //     //    animationTimer = 1f / animationFPS;
+    //     //    currentFrame++;
+    //     //    if (currentFrame >= animationArray.Length)
+    //     //    {
+    //     //        currentFrame = 0;
+
+    //     //    }
+    //     //    spriteRenderer.sprite = animationArray[currentFrame];
+    //     //}
+
+    // }
+
+    // public IEnumerator deathAnimation()
+    // {
+    //     animationLoop(deathAnimations);
+    //     yield return new WaitForSeconds(1f);
+    // }
+}
